@@ -5,6 +5,8 @@
 Users interact with proxy address. Proxy delegates calls to business logic contract.
 This method separates stored data (proxy contract) and business logic (separate contract).
 
+![Proxy](img/proxy.webp)
+
 ```
 User ---- tx ---> Proxy ----------> Implementation_v0
                      |
