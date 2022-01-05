@@ -40,11 +40,14 @@ When the logic contract writes to `_owner`, it does so in the scope of the proxy
 Instead of storing the `_implementation` address at the proxy’s first storage slot, it chooses a pseudo random slot instead.
 Other proxy implementations that face this problem usually imply having the proxy know about the logic contract’s storage structure and adapt to it, or instead having the logic contract know about the proxy’s storage structure and adapt to it. This is why this approach is called "unstructured storage"; neither of the contracts needs to care about the structure of the other.
 
+Example from OpenZeppelin can be found [here](https://github.com/OpenZeppelin/openzeppelin-labs/tree/master/upgradeability_using_unstructured_storage) <br>
 An example of how the randomized storage is achieved, following EIP 1967:
 
 ```java
 bytes32 private constant implementationPosition = bytes32(uint256( keccak256('eip1967.proxy.implementation')) - 1 ));
 ```
+
+Since __constant state variables__ do not occupy storage slots, there’s no concern of the `implementationPosition` being accidentally overwritten by the logic contract. Due to how Solidity lays out its state variables in storage there is extremely little chance of collision of this storage slot being used by something else defined in the logic contract.
 
 ### Storage Collisions Between Implementation Versions
 
